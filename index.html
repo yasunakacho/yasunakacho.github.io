@@ -1,0 +1,1083 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Kompiraチュートリアル &mdash; Kompira 1.4.8.post7 ドキュメント</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.4.8.post7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script src="//j.wovn.io/1" data-wovnio="key=jYzea" async></script>
+    <link rel="top" title="Kompira 1.4.8.post7 ドキュメント" href="index.html" />
+    <link rel="next" title="4. Kompira ジョブフロー言語リファレンス" href="reference.html" />
+    <link rel="prev" title="2. 操作ガイド" href="usage.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="reference.html" title="4. Kompira ジョブフロー言語リファレンス"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="2. 操作ガイド"
+             accesskey="P">前へ</a> |</li>
+        <li><a href="index.html">Kompira 1.4.8.post7 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Kompiraチュートリアル</a><ul>
+<li><a class="reference internal" href="#id1">3.1. はじめに</a></li>
+<li><a class="reference internal" href="#id2">3.2. ジョブフローを動かす</a><ul>
+<li><a class="reference internal" href="#hello-world">3.2.1. Hello World</a></li>
+<li><a class="reference internal" href="#id3">3.2.2. コメントの書き方</a></li>
+<li><a class="reference internal" href="#id4">3.2.3. コマンドを実行する</a></li>
+<li><a class="reference internal" href="#result">3.2.4. $RESULT</a></li>
+<li><a class="reference internal" href="#id5">3.2.5. ジョブの連結</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">3.3. 変数を使う</a><ul>
+<li><a class="reference internal" href="#id7">3.3.1. 変数の定義</a></li>
+<li><a class="reference internal" href="#id8">3.3.2. 識別子</a></li>
+<li><a class="reference internal" href="#id9">3.3.3. スコープ</a></li>
+<li><a class="reference internal" href="#id10">3.3.4. 変数の代入</a></li>
+<li><a class="reference internal" href="#id11">3.3.5. 配列と辞書</a><ul>
+<li><a class="reference internal" href="#id12">3.3.5.1. 配列</a></li>
+<li><a class="reference internal" href="#id13">3.3.5.2. 辞書</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id14">3.3.6. テンプレート文字列</a></li>
+<li><a class="reference internal" href="#id15">3.3.7. パラメータ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id16">3.4. リモートでコマンド実行する</a><ul>
+<li><a class="reference internal" href="#id17">3.4.1. 制御変数による指定</a></li>
+<li><a class="reference internal" href="#id18">3.4.2. ノード情報とアカウント情報の指定</a></li>
+<li><a class="reference internal" href="#sudo">3.4.3. sudoによる実行</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id19">3.5. 制御構造でジョブを操る</a><ul>
+<li><a class="reference internal" href="#id20">3.5.1. 条件分岐</a><ul>
+<li><a class="reference internal" href="#if">3.5.1.1. if ブロック</a></li>
+<li><a class="reference internal" href="#case">3.5.1.2. case ブロック</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id21">3.5.2. 繰り返し</a><ul>
+<li><a class="reference internal" href="#for">3.5.2.1. for ブロック</a></li>
+<li><a class="reference internal" href="#while">3.5.2.2. while ブロック</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id22">3.5.3. ジョブの呼び出し</a><ul>
+<li><a class="reference internal" href="#id23">3.5.3.1. ジョブフローの呼び出し</a></li>
+<li><a class="reference internal" href="#id24">3.5.3.2. ジョブフローへのパラメータ渡し</a></li>
+<li><a class="reference internal" href="#id25">3.5.3.3. スクリプトジョブの実行</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id26">3.6. オブジェクトを操作する</a><ul>
+<li><a class="reference internal" href="#id27">3.6.1. オブジェクトの参照</a></li>
+<li><a class="reference internal" href="#id28">3.6.2. プロパティの参照と更新</a></li>
+<li><a class="reference internal" href="#id29">3.6.3. フィールドの参照と更新</a></li>
+<li><a class="reference internal" href="#id30">3.6.4. メソッドの呼び出し</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id31">3.7. イベントを待ち合わせる</a><ul>
+<li><a class="reference internal" href="#id32">3.7.1. メッセージの送受信</a></li>
+<li><a class="reference internal" href="#id33">3.7.2. イベントジョブについて</a></li>
+<li><a class="reference internal" href="#id34">3.7.3. メッセージ受信のタイムアウト指定</a></li>
+<li><a class="reference internal" href="#id35">3.7.4. 複数チャネルからの選択的受信</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id36">3.8. 外部にアクセスする</a><ul>
+<li><a class="reference internal" href="#id37">3.8.1. メールを送信する</a></li>
+<li><a class="reference internal" href="#http">3.8.2. HTTP アクセスする</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id38">3.9. プロセスを制御する</a><ul>
+<li><a class="reference internal" href="#id39">3.9.1. プロセスの終了</a><ul>
+<li><a class="reference internal" href="#exit">3.9.1.1. exit</a></li>
+<li><a class="reference internal" href="#abort">3.9.1.2. abort</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id40">3.9.2. 子プロセスの起動</a><ul>
+<li><a class="reference internal" href="#fork">3.9.2.1. fork</a></li>
+<li><a class="reference internal" href="#pfor">3.9.2.2. pfor</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id41">3.9.3. 親プロセスからの切り離し</a><ul>
+<li><a class="reference internal" href="#detach">3.9.3.1. detach</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="usage.html"
+                        title="前の章へ">2. 操作ガイド</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="reference.html"
+                        title="次の章へ">4. Kompira ジョブフロー言語リファレンス</a></p>
+  <h3>このページ</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial.txt"
+           rel="nofollow">ソースコードを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="kompira">
+<h1>3. Kompiraチュートリアル<a class="headerlink" href="#kompira" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">著者:</th><td class="field-body">Kompira開発チーム</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id1">
+<h2>3.1. はじめに<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>このチュートリアルでは、Kompira ジョブフロー言語の基本的な書き方や仕様についてざっと紹介します。実際に Kompira 上でジョブフローを作成しながら学ぶことで、リモートノードの制御方法や Kompira オブジェクトの利用方法が理解できることでしょう。</p>
+<p>Kompira 標準オブジェクトの仕様については、<a class="reference internal" href="library.html"><em>Kompira 標準ライブラリ</em></a>を参照してください。また<a class="reference internal" href="reference.html"><em>Kompira ジョブフロー言語リファレンス</em></a>にはより形式的な言語の定義が書いてあります。</p>
+<p>このチュートリアルは Kompira の機能を網羅的に紹介しているわけではありません。しかしこのチュートリアルを読むことで、Kompira の特筆すべき機能や特徴を学び、簡単なジョブフローであれば読み書きできるようになるでしょう。</p>
+</div>
+<div class="section" id="id2">
+<h2>3.2. ジョブフローを動かす<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="hello-world">
+<h3>3.2.1. Hello World<a class="headerlink" href="#hello-world" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>最初のジョブフローは、コンソールに &#8220;Hello World&#8221; を表示する単純なものです。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>このジョブフローを実行するとコンソールに以下のように出力されるはずです。</p>
+<div class="highlight-python"><pre>Hello World</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">ジョブフローに文法エラーがあると、保存しても実行できない状態になります。実行ボタンが押せない場合は、ジョブフローのエラーを修正して再度保存してください。</p>
+</div>
+<p>Kompiraのジョブフロー言語は、1つの処理を表す<strong>ジョブ</strong>が基本的な実行の単位となります。</p>
+<p>上の例では<tt class="docutils literal"><span class="pre">print()</span></tt>がジョブフローの<strong>組み込みジョブ</strong>のひとつで、丸括弧内に引数として与えられた文字列をコンソールに出力します。詳しくは<a class="reference internal" href="library.html#lib-print"><em>print</em></a>を参照してください。</p>
+</div>
+<div class="section" id="id3">
+<h3>3.2.2. コメントの書き方<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ジョブフローではハッシュ文字<tt class="docutils literal"><span class="pre">#</span></tt>から行末までがコメントとなります。コメントは行の先頭にも、ジョブの後にも書くことができます。ただし、文字列中に現れるハッシュ文字は対象外です。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># これはコメントです</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;# これはコメントではありません&quot;</span><span class="p">)</span>  <span class="c"># これはコメント</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>3.2.3. コマンドを実行する<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>実行したいコマンドを文字列として<strong>[</strong>と<strong>]</strong>の中に記述することで、コマンドとして実行することができる<strong>実行ジョブ</strong>になります。</p>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">[]</span></tt>の中が文字列であれば実行すべきコマンドとして解釈しますので、コマンドラインの文字列を代入した変数を<tt class="docutils literal"><span class="pre">[]</span></tt>に記述して実行させることも可能です。（変数への代入については後ほど説明します）</p>
+</div>
+<p>コマンドの実行結果を表示する例を以下に示します。:</p>
+<div class="highlight-python"><pre>['whoami'] -&gt;
+print($RESULT)</pre>
+</div>
+<p>このジョブフローを実行すると<tt class="docutils literal"><span class="pre">whoami</span></tt>コマンドを実行し、その結果（標準出力）が<tt class="docutils literal"><span class="pre">print()</span></tt>ジョブでコンソールに出力されます。通常はコンソールに以下のように表示されるはずです。:</p>
+<div class="highlight-python"><pre>[localhost] local: whoami
+
+kompira</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p>特に指定しないとコマンドはジョブマネージャが動作しているホスト上で<tt class="docutils literal"><span class="pre">kompira</span></tt>アカウントで実行されるため、<tt class="docutils literal"><span class="pre">whoami</span></tt>コマンドの実行結果として<tt class="docutils literal"><span class="pre">kompira</span></tt>と表示されています。</p>
+<p class="last"><tt class="docutils literal"><span class="pre">[localhost]</span> <span class="pre">local:</span></tt>で始まる行はどのノードでどんなコマンドを実行したかを示しています。リモートでコマンドを実行した場合は<tt class="docutils literal"><span class="pre">[&lt;ホスト名&gt;]</span> <span class="pre">run:</span> <span class="pre">&lt;コマンド&gt;</span></tt>または<tt class="docutils literal"><span class="pre">[&lt;IPアドレス&gt;]</span> <span class="pre">run:</span> <span class="pre">&lt;コマンド&gt;</span></tt>のように表示されます。</p>
+</div>
+</div>
+<div class="section" id="result">
+<h3>3.2.4. $RESULT<a class="headerlink" href="#result" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">$RESULT</span></tt>は直前のジョブの実行結果が格納されている特殊な変数（状態変数）です。この場合は<tt class="docutils literal"><span class="pre">whoami</span></tt>コマンドの実行結果、すなわち &#8220;kompira&#8221; という文字列が格納されることになります。</p>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">$RESULT</span></tt>に格納される値の形式はジョブの種類によって異なります。コマンドジョブの場合は、標準出力が文字列として格納されていますが、ジョブによっては数値や辞書型の場合もあります。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>3.2.5. ジョブの連結<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ジョブとジョブの間の矢印<tt class="docutils literal"><span class="pre">-&gt;</span></tt>は、前のジョブが成功したら、後続のジョブを実行する、という意味です。したがって、ジョブを<tt class="docutils literal"><span class="pre">-&gt;</span></tt>でつないでいくことで、順番にジョブを実行していくことができます。</p>
+<p>ジョブが失敗した場合（コマンドの実行ステータスが0以外を返した場合）でも次の処理を継続したい場合には、二重矢印<tt class="docutils literal"><span class="pre">=&gt;</span></tt>を使います。なお、直前のコマンドの実行ステータスは<tt class="docutils literal"><span class="pre">$STATUS</span></tt>状態変数で参照することができます。</p>
+<p>こうしたジョブを連結する矢印を<a class="reference internal" href="reference.html#ref-connector"><em>結合子</em></a>といい、ジョブフローでは4種類あります。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>3.3. 変数を使う<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id7">
+<h3>3.3.1. 変数の定義<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>変数は<tt class="docutils literal"><span class="pre">{</span> <span class="pre">&lt;変数定義&gt;</span> <span class="pre">|</span> <span class="pre">&lt;ジョブ&gt;</span> <span class="pre">}</span></tt>という構文を用いて定義することができます。<tt class="docutils literal"><span class="pre">&lt;変数定義&gt;</span></tt>の部分は<tt class="docutils literal"><span class="pre">変数名</span> <span class="pre">=</span> <span class="pre">値(または式)</span></tt>という形式で記述します。コンマで区切って複数の変数定義を記述することもできます。</p>
+<div class="highlight-python"><pre>{ x = 'what do you get if you multiply six by nine?', y = 6 * 9 |
+  print(x) -&gt; print(y) }</pre>
+</div>
+<p>この場合、変数<tt class="docutils literal"><span class="pre">x</span></tt>が<tt class="docutils literal"><span class="pre">'what</span> <span class="pre">do</span> <span class="pre">you</span> <span class="pre">get</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">multiply</span> <span class="pre">six</span> <span class="pre">by</span> <span class="pre">nine?'</span></tt>という文字列で初期化され、変数<tt class="docutils literal"><span class="pre">y</span></tt>が<tt class="docutils literal"><span class="pre">6</span> <span class="pre">*</span> <span class="pre">9</span></tt>と式の計算結果で初期化されます。変数定義の後に縦棒<tt class="docutils literal"><span class="pre">|</span></tt>で区切って、その変数を参照するジョブを記述することができます。</p>
+<p>上のジョブフローを実行すると、コンソールには以下のように表示されます。</p>
+<div class="highlight-python"><pre>what do you get if you multiply six by nine?
+54</pre>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>3.3.2. 識別子<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>変数名などに用いる識別子には、Unicode で単語文字として分類される文字が使用できます。これには日本語の漢字や平仮名、英数字やアンダースコアが含まれています（アンダースコア以外の記号は含まれません）。ただし、識別子の先頭に数字<tt class="docutils literal"><span class="pre">[0-9]</span></tt>は使用できません。</p>
+<p>したがって、以下のような文字列は識別子として使用可能です。</p>
+<div class="highlight-python"><pre>x, foo123, 結果, __reserved_variable__</pre>
+</div>
+<p>次のような文字列は識別子として使用できません。</p>
+<div class="highlight-python"><pre>1st, foo-bar, @id, #hash</pre>
+</div>
+<p>なお、以下は予約語またはキーワードとして扱われるため、変数名などに用いることはできません。</p>
+<div class="highlight-python"><pre>and             break           case            choice
+continue        elif            else            false
+for             fork            if              in
+not             null            or              pfor
+then            true            while</pre>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>3.3.3. スコープ<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>変数の有効範囲（スコープ）は<tt class="docutils literal"><span class="pre">{</span></tt>と<tt class="docutils literal"><span class="pre">}</span></tt>で囲まれた範囲です。スコープ内で定義されていない変数は参照できないため、以下のようなジョブフローは実行時にエラーとなります。</p>
+<div class="highlight-python"><pre>{ x = 'hello' |      # 変数 x のスコープは
+    print(x) }       # ここまで
+-&gt; print(x)          # ここはスコープ外</pre>
+</div>
+<p>なお、以下のようにスコープを入れ子にすることは可能です。</p>
+<div class="highlight-python"><pre>{ x = 'outer', y = 999 |
+    print(x) -&gt; print(y)
+    -&gt; { x = 'inner' |
+        print(x) -&gt; print(y) }
+    -&gt; print(x) -&gt; print(y)
+}</pre>
+</div>
+<p>このジョブフローを実行すると以下のようになり、<tt class="docutils literal"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">'inner'</span></tt>のスコープが3～4行目であり、5行目では外側のスコープを参照していることが分かります。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">outer</span>
+<span class="mi">999</span>
+<span class="n">inner</span>
+<span class="mi">999</span>
+<span class="n">outer</span>
+<span class="mi">999</span>
+</pre></div>
+</div>
+<p>すなわち、ジョブフローでの変数のスコープ規則は、C や Java などと同様です。</p>
+</div>
+<div class="section" id="id10">
+<h3>3.3.4. 変数の代入<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>定義された変数の値を変更するには、<tt class="docutils literal"><span class="pre">[変数</span> <span class="pre">=</span> <span class="pre">値(または式)]</span></tt>という形式の<strong>代入ジョブ</strong>を使います。</p>
+<div class="highlight-python"><pre>{ x = 'outer', y = 'foo' |
+    print(x) -&gt; print(y) -&gt;
+    { x = '1st' |
+        print(x)
+        -&gt; [x = '2nd'] -&gt; print(x)
+        -&gt; [x = '3rd'] -&gt; print(x)
+        -&gt; [y = 'bar']
+        -&gt; [z = 'baz'] }
+    -&gt; print(x) -&gt; print(y) }
+-&gt; print(z)</pre>
+</div>
+<p>スコープが入れ子になっている場合、代入はその位置を含む外側のスコープのうち対象となる変数定義を含む<strong>もっとも内側のスコープ</strong>に対して行われます。上の例で言うと、5～6行目で値を代入している変数<tt class="docutils literal"><span class="pre">x</span></tt>は 3行目で定義したもの、7行目で代入している変数<tt class="docutils literal"><span class="pre">y</span></tt>は1行目で定義したものです。</p>
+<p>未定義の変数に対して値を代入すると、<strong>最も外側のスコープ（ジョブフロースコープ）</strong>で変数が新たに定義され、その値にセットされます。上の例で言うと、8行目で値を代入している変数<tt class="docutils literal"><span class="pre">z</span></tt>はその時点では未定義であるため、最も外側のスコープに新たに定義され、10行目で表示できることになります。</p>
+<p>最も外側のスコープというのは明示的に<tt class="docutils literal"><span class="pre">{}</span></tt>で囲まれてはいませんが、ジョブフロー全体を囲んでいるスコープがあると考えてください。</p>
+<p>上記のジョブフローの実行結果は以下のようになります。</p>
+<div class="highlight-python"><pre>outer
+foo
+1st
+2nd
+3rd
+outer
+bar
+baz</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">$RESULT</span></tt>や<tt class="docutils literal"><span class="pre">$STATUS</span></tt>など状態変数は Kompira が内部的に値を設定するもので、ジョブフローで状態変数への値の代入はできません。</p>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>3.3.5. 配列と辞書<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id12">
+<h4>3.3.5.1. 配列<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>複数の値を一度に保持したい場合は配列や辞書を使います。配列は<tt class="docutils literal"><span class="pre">[</span> <span class="pre">式,...</span> <span class="pre">]</span></tt>と角括弧の中にコンマで複数の値や式を区切って記述します。配列要素へのアクセスは 0 始まりのインデックスを角括弧で指定することで可能です。また配列要素の書き換えは<tt class="docutils literal"><span class="pre">[値</span> <span class="pre">&gt;&gt;</span> <span class="pre">配列要素]</span></tt>で可能です。</p>
+<div class="highlight-python"><pre>[arr = [1, true, 'foo' ,['nested', 'array']]] -&gt;
+print(arr[1]) -&gt;              # 配列要素の参照
+[false &gt;&gt; arr[1]] -&gt;          # 配列要素の書き換え
+[arr = arr + ['added']] -&gt;    # 配列要素の追加
+print(arr[3][1]) -&gt;           # 入れ子になった配列要素の参照
+print(arr)                    # print() は配列自体の表示も可能</pre>
+</div>
+<p>このジョブフローを実行すると、以下のようになります。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">true</span>
+<span class="n">array</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">false</span><span class="p">,</span> <span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;nested&#39;</span><span class="p">,</span> <span class="s">&#39;array&#39;</span><span class="p">],</span> <span class="s">&#39;added&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>また負の値をインデックスに指定すると、配列の後ろから要素にアクセスします。</p>
+<div class="highlight-python"><pre>[arr = [1, true, 'foo']] -&gt; print(arr[-1])</pre>
+</div>
+<p>このジョブフローの実行結果は次のようになります。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">foo</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h4>3.3.5.2. 辞書<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>辞書は<tt class="docutils literal"><span class="pre">{</span> <span class="pre">識別子=式,...</span> <span class="pre">}</span></tt>と波括弧の中にコンマで複数の<tt class="docutils literal"><span class="pre">識別子=値</span></tt>を区切って記述します。辞書要素へのアクセスはドット記法または識別子を角括弧で指定することで可能です。また辞書要素の書き換えは<tt class="docutils literal"><span class="pre">[値</span> <span class="pre">&gt;&gt;</span> <span class="pre">辞書要素]</span></tt>で可能です。</p>
+<div class="highlight-python"><pre>[dic = {foo=1, bar=true, baz={a=123, b=456}}] -&gt;
+print(dic.foo) -&gt;             # 辞書要素の参照（ドット記法）
+[false &gt;&gt; dic.bar] -&gt;         # 辞書要素の書き換え
+print(dic['bar']) -&gt;          # 辞書要素の参照（角括弧記法）
+[[1,2,3] &gt;&gt; dic.arr] -&gt;       # 辞書要素の追加
+print(dic.baz.a) -&gt;           # 入れ子になった辞書要素の参照
+[777 &gt;&gt; dic.baz.a] -&gt;         # 入れ子になった辞書要素の書き換え
+[999 &gt;&gt; dic['baz']['b']] -&gt;   # 入れ子になった辞書要素の書き換え
+print(dic)                    # print() は辞書自体の表示も可能</pre>
+</div>
+<p>このジョブフローを実行すると、以下のようになります。</p>
+<div class="highlight-python"><pre>1
+false
+123
+{foo=1, bar=false, baz={a=777, b=999}, arr=[1, 2, 3]}</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h3>3.3.6. テンプレート文字列<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ジョブフローでは文字列中に変数の値を展開することができます。以下のように文字列中に<tt class="docutils literal"><span class="pre">$</span></tt>と識別子からなるプレースホルダがあると、その部分が識別子の示す変数値で置き換えられます。</p>
+<div class="highlight-python"><pre>[service = 'http', port = 80] -&gt;
+print('Port $port is used by $service')</pre>
+</div>
+<p>このジョブフローを実行すると以下のようになります。</p>
+<div class="highlight-python"><pre>Port 80 is used by http</pre>
+</div>
+<p>プレースホルダは<tt class="docutils literal"><span class="pre">$識別子</span></tt>のほかに<tt class="docutils literal"><span class="pre">${識別子}</span></tt>という記法も可能ですので、文字列中で識別子の区切りがつかない場合に使用してください。</p>
+<div class="highlight-python"><pre>[w=640, h=480] -&gt;
+print("width=${w}px, height=${h}px")</pre>
+</div>
+<p>また、文字列のあとに<tt class="docutils literal"><span class="pre">%</span></tt>を書くと続く辞書に含まれる値を展開することもできます。その場合は文字列中に<tt class="docutils literal"><span class="pre">%</span></tt>と識別子からなるプレースホルダを記述します。</p>
+<div class="highlight-python"><pre>print('Port %port is used by %service' % {service = 'http', port = 80})</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">%</span></tt>に続ける辞書はもちろん変数でもよいので以下のようにも書けます。</p>
+<div class="highlight-python"><pre>[ctx = {service = 'http', port = 80}] -&gt;
+print('Port %port is used by %service' % ctx)</pre>
+</div>
+<p>いずれの記法でもプレースホルダが指定する変数や辞書要素が未定義である場合は、<tt class="docutils literal"><span class="pre">$</span></tt>や<tt class="docutils literal"><span class="pre">%</span></tt>も含めてそのまま文字列中に残ります。</p>
+</div>
+<div class="section" id="id15">
+<h3>3.3.7. パラメータ<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ジョブフローはその実行時にパラメータを受け取ることができます。</p>
+<p>ジョブフローの先頭で変数名を縦棒で囲む<tt class="docutils literal"><span class="pre">|変数名|</span></tt>という記法で、その変数をパラメータとして定義することができます。また、<tt class="docutils literal"><span class="pre">|変数名</span> <span class="pre">=</span> <span class="pre">値(または式)|</span></tt>と記述することで、パラメータのデフォルト値を定義することができます。デフォルト値が定義されていないパラメータは、ジョブフローの実行時に値を指定する必要がある（省略できない）ことに注意してください。</p>
+<p>以下のジョブフローでは、<tt class="docutils literal"><span class="pre">command</span></tt>と<tt class="docutils literal"><span class="pre">wait</span></tt>という2つのパラメータを定義していて、<tt class="docutils literal"><span class="pre">wait</span></tt>にはデフォルト値として 10 が設定されています。</p>
+<div class="highlight-python"><pre>| command |
+| wait = 10 |
+
+print('$wait 秒後にコマンド $command を実行します') -&gt;
+["sleep $wait"] -&gt;
+[command] -&gt;
+print($RESULT)</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">パラメータはジョブフローの実行開始時に上から順番に評価されます。そのため先に登場したパラメータの値を参照する式を使うこともできます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h2>3.4. リモートでコマンド実行する<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>次は、ジョブマネージャが動作しているホストとは別のホスト上でコマンドを実行させてみましょう。</p>
+<div class="section" id="id17">
+<h3>3.4.1. 制御変数による指定<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>まずは制御変数によるコマンドを実行するホストやアカウントの指定方法です。</p>
+<div class="highlight-python"><pre>[__host__ = '&lt;ホスト名 もしくは IPアドレス&gt;',
+ __user__ = '&lt;ユーザー名&gt;',
+ __password__ = '&lt;パスワード&gt;']
+-&gt; ['hostname'] -&gt; print($RESULT)
+-&gt; ['whoami'] -&gt; print($RESULT)
+-&gt; ['echo Hello World'] -&gt; print($RESULT)</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">&lt;ホスト名&gt;</span></tt>や<tt class="docutils literal"><span class="pre">&lt;ユーザー名&gt;</span></tt>、<tt class="docutils literal"><span class="pre">&lt;パスワード&gt;</span></tt>は、自分の環境に合わせて書き変えてください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">__host__</span></tt>,<tt class="docutils literal"><span class="pre">__user__</span></tt>,<tt class="docutils literal"><span class="pre">__password__</span></tt>は、Kompira で予約済みの<strong>制御変数</strong>で、これらの変数にそれぞれ、ホスト名(またはIPアドレス)，ユーザー名，パスワードを設定しておくことで、以降のリモートを処理対象とするジョブを設定したホストとユーザー名で実行します。</p>
+<p>成功すれば、実行結果は以下のように表示されるはずです。</p>
+<div class="highlight-python"><pre>&lt;ホスト名&gt;
+&lt;ユーザー名&gt;
+Hello World</pre>
+</div>
+<p>もし、ホスト名が間違っていたり、ユーザー名やパスワードが間違っていると、ジョブフローが失敗し、処理が中止（abort）されます。</p>
+</div>
+<div class="section" id="id18">
+<h3>3.4.2. ノード情報とアカウント情報の指定<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ノード情報オブジェクトとアカウント情報オブジェクトを Kompira ファイルシステム上に作成しておくと、それらをコマンド実行の対象サーバとしてジョブフローから指定することができます。</p>
+<p>今、ノード情報オブジェクト<tt class="docutils literal"><span class="pre">test_node</span></tt>とアカウント情報オブジェクト<tt class="docutils literal"><span class="pre">test_account</span></tt>を作成し、ホスト名やユーザ名、パスワード情報が適切に設定されているとします。すると、同じディレクトリにあるジョブフローからのコマンド実行は、ノード情報オブジェクトの指定には制御変数<tt class="docutils literal"><span class="pre">__node__</span></tt>を、アカウント情報オブジェクトの指定には<tt class="docutils literal"><span class="pre">__account__</span></tt>を使用することで、以下のように簡潔に記述することができます。</p>
+<div class="highlight-python"><pre>[__node__ = ./test_node, __account__ = ./test_account]
+-&gt; ['hostname'] -&gt; print($RESULT)
+-&gt; ['whoami'] -&gt; print($RESULT)
+-&gt; ['echo Hello World'] -&gt; print($RESULT)</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">ジョブフローから Kompira オブジェクトの参照は、相対パスまたは絶対パスで記述することで行えます。上の例では<tt class="docutils literal"><span class="pre">./</span></tt>で始まる同じディレクトリにあるオブジェクトを指定していますが、<tt class="docutils literal"><span class="pre">../</span></tt>や<tt class="docutils literal"><span class="pre">/</span></tt>で始まるパスで親ディレクトリやルートディレクトリを基準とした指定も可能です。</p>
+</div>
+<p>なおノード情報オブジェクト<tt class="docutils literal"><span class="pre">test_node</span></tt>にデフォルトアカウントを設定している場合は、<tt class="docutils literal"><span class="pre">__account__</span></tt>の指定を省略することも可能です。</p>
+<div class="highlight-python"><pre>[__node__ = ./test_node]
+-&gt; ['hostname'] -&gt; print($RESULT)
+-&gt; ['whoami'] -&gt; print($RESULT)</pre>
+</div>
+<p>また、制御変数をジョブフローのパラメータとして指定することもできるので、実行時に制御対象ノードを指定するジョブフローを作ることもできます。</p>
+<div class="highlight-python"><pre>|__node__ = ./test_node|
+-&gt; ['hostname'] -&gt; print($RESULT)</pre>
+</div>
+</div>
+<div class="section" id="sudo">
+<h3>3.4.3. sudoによる実行<a class="headerlink" href="#sudo" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>コマンドの実行にroot権限が必要な場合、<tt class="docutils literal"><span class="pre">__sudo__</span></tt>制御変数に<tt class="docutils literal"><span class="pre">true</span></tt>をセットして sudo モードに移行します。</p>
+<div class="highlight-python"><pre>|__node__ = ./test_node|
+-&gt; ['whoami'] -&gt; print($RESULT)
+-&gt; [__sudo__ = true]
+-&gt; ['whoami'] -&gt; print($RESULT)</pre>
+</div>
+<p>このジョブフローを実行するとコンソールには以下のように表示されます。</p>
+<div class="highlight-python"><pre>&lt;ユーザー名&gt;
+root</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">sudo モードでコマンドを正しく実行するためには、そのユーザーが sudoersファイルに登録されている必要があります。そうでない場合には、sudo モードでのリモートコマンド実行時に処理が失敗(abort)します。詳しくはマニュアル sudoers(5) を参照してください。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p>ホストを指定しないコマンド実行ジョブを sudo モードで実行する場合、ジョブマネージャを実行しているサーバ（通常は Kompira をインストールしたサーバ）の<tt class="docutils literal"><span class="pre">kompira</span></tt>ユーザーを sudoers ファイルに登録する必要があります。さらに、以下のように requiretty フラグを無効にする設定をsudoers ファイルに追加しておく必要もあります。</p>
+<p class="last"><tt class="docutils literal"><span class="pre">Defaults:kompira</span>&nbsp;&nbsp;&nbsp; <span class="pre">!requiretty</span></tt></p>
+</div>
+</div>
+</div>
+<div class="section" id="id19">
+<h2>3.5. 制御構造でジョブを操る<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id20">
+<h3>3.5.1. 条件分岐<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>直前のジョブの実行結果や変数の内容によって処理を分岐させるには、<tt class="docutils literal"><span class="pre">if</span></tt>ブロックもしくは<tt class="docutils literal"><span class="pre">case</span></tt>ブロックを利用します。</p>
+<div class="section" id="if">
+<h4>3.5.1.1. if ブロック<a class="headerlink" href="#if" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">if</span></tt>ブロックを使うと条件式の結果によって、処理を分岐させることができます。</p>
+<div class="highlight-python"><pre>['echo $$RANDOM'] -&gt;
+[x = int($RESULT)] -&gt;
+{ if x % 2 == 0 |
+    then: print('$x は偶数です')
+    else: print('$x は奇数です')
+}</pre>
+</div>
+<p>上記では、変数<tt class="docutils literal"><span class="pre">x</span></tt>の値を2で割った余りが0に等しければ<tt class="docutils literal"><span class="pre">then</span></tt>節が実行され、それ以外の場合は<tt class="docutils literal"><span class="pre">else</span></tt>節が実行されます。なお、<tt class="docutils literal"><span class="pre">['echo</span> <span class="pre">$$RANDOM']</span></tt>は乱数を返す環境変数である<tt class="docutils literal"><span class="pre">RANDOM</span></tt>を表示しており、<tt class="docutils literal"><span class="pre">[x</span> <span class="pre">=</span> <span class="pre">int($RESULT)]</span></tt>はその結果の文字列を整数化して変数<tt class="docutils literal"><span class="pre">x</span></tt>に代入しています。</p>
+<p>真・偽だけでなく、さらに処理を分岐させたい場合は<tt class="docutils literal"><span class="pre">elif</span></tt>節を使います。</p>
+<div class="highlight-python"><pre>{ if x % 3 == 0 and x % 5 == 0 |
+    then: print('FizzBuzz')           # x が 3 でも 5 でも割り切れれば 'FizzBuzz' と表示
+    elif x % 3 == 0: print('Fizz')    # x が 3 で割り切れれば 'Fizz' と表示
+    elif x % 5 == 0: print('Buzz')    # x が 5 で割り切れれば 'Buzz' と表示
+    else: print(x)                    # それ以外の場合は x を表示
+}</pre>
+</div>
+<p>逆に<tt class="docutils literal"><span class="pre">else</span></tt>節を省略することも可能です。さらにその場合は<tt class="docutils literal"><span class="pre">then</span></tt>キーワードを省略することもできます。</p>
+<div class="highlight-python"><pre>[command] =&gt;
+{ if $STATUS != 0 | print('エラーが発生しました: ' + $ERROR) }</pre>
+</div>
+<p>上記の例では変数<tt class="docutils literal"><span class="pre">command</span></tt>の内容が示すコマンドを実行し、その結果ステータス<tt class="docutils literal"><span class="pre">$STATUS</span></tt>の値が0でないとき、<tt class="docutils literal"><span class="pre">print</span></tt>ジョブで標準エラー出力(<tt class="docutils literal"><span class="pre">$ERROR</span></tt>)を表示します。</p>
+</div>
+<div class="section" id="case">
+<h4>3.5.1.2. case ブロック<a class="headerlink" href="#case" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">case</span></tt>ブロックによる条件分岐は以下のように書けます。</p>
+<div class="highlight-python"><pre>['cat /etc/redhat-release'] -&gt;
+{ case $RESULT |
+    'CentOS*release 6.*': print("CentOS です")
+    'Red Hat*release 6.*': print("Red Hat です")
+    else: print("CentOS/Red Hat 6.x が必要です")
+}</pre>
+</div>
+<p>この例では、ファイル<tt class="docutils literal"><span class="pre">/etc/redhat-release</span></tt>の内容で OS の種別を判定するために条件分岐を行っています。パターン文字列には<tt class="docutils literal"><span class="pre">*</span></tt>や<tt class="docutils literal"><span class="pre">?</span></tt>などUnixのワイルドカードが使用できます。</p>
+<p><tt class="docutils literal"><span class="pre">case</span></tt>ブロックでの文字列のマッチングは先頭のパターンから順次行われ、最初にマッチしたパターンに続くジョブフロー系列のみが実行されます。</p>
+<p>どのパターンにもマッチしなかった場合は以下のようになります。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">else</span></tt>節が含まれる場合はそのジョブフロー系列が実行されます。</li>
+<li><tt class="docutils literal"><span class="pre">else</span></tt>節が含まれない場合は<tt class="docutils literal"><span class="pre">case</span></tt>ブロック全体が失敗します（<tt class="docutils literal"><span class="pre">$STATUS</span></tt>に1がセットされます）。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">if</span></tt>ブロックとは異なり、<tt class="docutils literal"><span class="pre">case</span></tt>ブロックでは<tt class="docutils literal"><span class="pre">else</span></tt>節を省略していてどの条件にもマッチしなかった場合はブロック全体が失敗することに注意が必要です。<tt class="docutils literal"><span class="pre">case</span></tt>ブロックでマッチしなかった場合に何もせずエラーにもしない場合は、<tt class="docutils literal"><span class="pre">else:</span> <span class="pre">[]</span></tt>とスキップジョブを<tt class="docutils literal"><span class="pre">else</span></tt>節に書くようにしてください。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>3.5.2. 繰り返し<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>繰り返しは<tt class="docutils literal"><span class="pre">for</span></tt>ブロックや<tt class="docutils literal"><span class="pre">while</span></tt>ブロックを用います。</p>
+<div class="section" id="for">
+<h4>3.5.2.1. for ブロック<a class="headerlink" href="#for" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Kompira が扱えるオブジェクトには、配列や辞書といった複合データまたはディレクトリなど子要素を含むものがあります。あるオブジェクトに含まれる子要素（値やオブジェクト）に対して同じ処理を行ないたい場合<tt class="docutils literal"><span class="pre">for</span></tt>ブロックを用います。<tt class="docutils literal"><span class="pre">for</span></tt>ブロックの構文は以下のようなものです。</p>
+<div class="highlight-python"><pre>{ for &lt;ループ変数&gt; in &lt;子要素を含むオブジェクト&gt; | ジョブ... }</pre>
+</div>
+<p>たとえば<tt class="docutils literal"><span class="pre">in</span></tt>節に &lt;ディレクトリパス&gt; を記述することで、そのディレクトリの中にあるオブジェクトのリストを参照することができます。</p>
+<div class="highlight-python"><pre>{ for t in /system/types | print(t) }</pre>
+</div>
+<p>この例では /system/types ディレクトリの中にあるすべてのオブジェクトを、１つずつループ変数<tt class="docutils literal"><span class="pre">t</span></tt>で参照して<tt class="docutils literal"><span class="pre">print()</span></tt>ジョブでコンソールに出力しています。なお Kompira オブジェクトを<tt class="docutils literal"><span class="pre">print()</span></tt>ジョブに渡すと、その絶対パスがコンソールに出力されるため、結果は以下のようになります。</p>
+<div class="highlight-python"><pre>/system/types/TypeObject
+/system/types/Directory
+/system/types/License
+/system/types/Virtual
+/system/types/Jobflow
+/system/types/Channel
+    :</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">in</span></tt>節には以下のように直接配列を記述することも可能です。</p>
+<div class="highlight-python"><pre>{ sum = 0 |
+    { for i in [1,2,3,4,5,6,7,8,9,10] |
+        [sum = sum + i]
+    } -&gt;
+    print('1から10までの和は ${sum} です')
+}</pre>
+</div>
+<p>このジョブフローは、1から10までの合計値を計算して出力します。</p>
+<div class="highlight-python"><pre>1から10までの和は 55 です</pre>
+</div>
+<p>また辞書を<tt class="docutils literal"><span class="pre">in</span></tt>節に続けて記述した場合は、その辞書に含まれる識別子のリストを順次参照することができます。</p>
+<div class="highlight-python"><pre>[dic = {a=10, b=20, c=30}] -&gt;
+{ for k in dic |
+    print("$k = %{$k}" % dic)
+}</pre>
+</div>
+<p>このジョブフローを実行するとコンソールには以下のように表示されます。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mi">30</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">%{$k}</span></tt>となっている部分は<tt class="docutils literal"><span class="pre">%</span></tt>によるテンプレート展開の前に<tt class="docutils literal"><span class="pre">$k</span></tt>の部分が辞書の識別子によって置き換えられます。そのため、繰り返しのたびにまず<tt class="docutils literal"><span class="pre">%a</span></tt>,<tt class="docutils literal"><span class="pre">%b</span></tt>,<tt class="docutils literal"><span class="pre">%c</span></tt>と展開され、それが辞書<tt class="docutils literal"><span class="pre">dic</span></tt>の各要素の値でテンプレート展開されて<tt class="docutils literal"><span class="pre">10</span></tt>,<tt class="docutils literal"><span class="pre">20</span></tt>,<tt class="docutils literal"><span class="pre">30</span></tt>と表示されます。</p>
+</div>
+</div>
+<div class="section" id="while">
+<h4>3.5.2.2. while ブロック<a class="headerlink" href="#while" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>繰り返す対象が決まっているのではなく、ある条件を満たすあいだはジョブを繰り返し処理したいという場合は<tt class="docutils literal"><span class="pre">while</span></tt>ブロックを用います。<tt class="docutils literal"><span class="pre">while</span></tt>ブロックの構文は以下のようなものです。</p>
+<div class="highlight-python"><pre>{ while &lt;式&gt; | ジョブ... }</pre>
+</div>
+<p>例えば、与えられた2つの数の最大公約数を求める「ユークリッドの互除法」は剰余が0になるまで繰り返すアルゴリズムですが、これを<tt class="docutils literal"><span class="pre">while</span></tt>ブロックを用いて記述すると以下のようになります。</p>
+<div class="highlight-python"><pre>|x = 165|
+|y = 105|
+[m = x, n = y] -&gt;
+{ while n != 0 |
+    [r = m % n] -&gt;
+    print("$m と $n の剰余は $r です") -&gt;
+    [m = n, n = r]
+} -&gt;
+print("$x と $y の最大公約数は $m です")</pre>
+</div>
+<p>この<tt class="docutils literal"><span class="pre">while</span></tt>ブロックの部分では、<tt class="docutils literal"><span class="pre">n</span></tt>が 0 ではない間、<tt class="docutils literal"><span class="pre">m</span></tt>には<tt class="docutils literal"><span class="pre">n</span></tt>を、<tt class="docutils literal"><span class="pre">n</span></tt>には<tt class="docutils literal"><span class="pre">m</span></tt>と<tt class="docutils literal"><span class="pre">n</span></tt>の剰余を代入する（および表示する）、というジョブを繰り返しています。実行すると以下のように表示されます。</p>
+<div class="highlight-python"><pre>165 と 105 の剰余は 60 です
+105 と 60 の剰余は 45 です
+60 と 45 の剰余は 15 です
+45 と 15 の剰余は 0 です
+165 と 105 の最大公約数は 15 です</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id22">
+<h3>3.5.3. ジョブの呼び出し<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id23">
+<h4>3.5.3.1. ジョブフローの呼び出し<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>あるジョブフローから別のジョブフローを呼び出すには以下の様な構文を用います。</p>
+<div class="highlight-python"><pre>[&lt;ジョブフローオブジェクト&gt;]</pre>
+</div>
+<p>ここでは「サブジョブ」というジョブを作成して、それを呼び出す例を示します。まず、サブジョブを適当なディレクトリの下で、以下のように定義します。</p>
+<div class="highlight-python"><pre>print("サブジョブです") -&gt;
+return("成功しました")</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">return</span></tt>ジョブは、サブジョブを終了し、結果を呼び出し側のジョブに返します。</p>
+<p>次に、このサブジョブを呼び出すメインジョブを同じディレクトリの下に作成します。</p>
+<div class="highlight-python"><pre>print("サブジョブを呼び出します")
+-&gt; [./サブジョブ]              # サブジョブを呼び出す
+-&gt; print($RESULT)              # サブジョブの実行結果を出力する</pre>
+</div>
+<p>「サブジョブ」の呼び出しを指定するところで、文字列の先頭に「./」を追加していることに注意してください。これは、現在のジョブフローが定義されているディレクトリと同じディレクトリ内に「サブジョブ」が定義されていることを示しています。</p>
+<p>サブジョブの実行結果は<tt class="docutils literal"><span class="pre">$RESULT</span></tt>で受け取ることができます。上記のメインジョブを実行すると、以下のように表示されます。</p>
+<div class="highlight-python"><pre>サブジョブを呼び出します
+サブジョブです
+成功しました</pre>
+</div>
+</div>
+<div class="section" id="id24">
+<h4>3.5.3.2. ジョブフローへのパラメータ渡し<a class="headerlink" href="#id24" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ジョブフローを呼び出すときに、次のような構文を用いてパラメータを渡すこともできます。</p>
+<div class="highlight-python"><pre>[&lt;ジョブフローオブジェクト&gt; : &lt;パラメータ列&gt; ... ]</pre>
+</div>
+<p>まず、サブジョブを拡張して、以下のようにパラメータを追加してみましょう。</p>
+<div class="highlight-python"><pre>|パラメータ1 = 'Hello'|
+|パラメータ2 = 'World'|
+
+print("サブジョブです")
+-&gt; print(パラメータ1)
+-&gt; print(パラメータ2)
+-&gt; return("成功しました")</pre>
+</div>
+<p>この状態でさきほどのメインジョブをそのまま実行すると、以下のように表示されます。呼び出し時にパラメータを指定していないため、サブジョブ側で定義したデフォルトパラメータが使われていることがわかります。</p>
+<div class="highlight-python"><pre>サブジョブを呼び出します
+サブジョブです
+Hello
+World
+成功しました</pre>
+</div>
+<p>このサブジョブにパラメータを渡して呼び出すには、メインジョブを以下のように拡張します。サブジョブ呼び出し時に、<tt class="docutils literal"><span class="pre">:</span></tt>に続けて値を記述することで、それらをパラメータ値としてサブジョブに渡すことができます。</p>
+<div class="highlight-python"><pre>print("パラメータ付きでサブジョブを呼び出します")
+-&gt; [./サブジョブ: 'こんにちは', '世界']
+-&gt; print($RESULT)</pre>
+</div>
+<p>これを実行すると、以下のような結果となります。</p>
+<div class="highlight-python"><pre>パラメータ付きでサブジョブを呼び出します
+サブジョブです
+こんにちは
+世界
+成功しました</pre>
+</div>
+<p>呼び出されるジョブフロー側で定義したパラメータ名を指定して、パラメータ値を渡すこともできます。一部のパラメータだけ指定したい場合などに便利です。</p>
+<div class="highlight-python"><pre>[./サブジョブ: パラメータ2='世界']</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">呼び出される側で定義されていないパラメータ名を指定したり、定義されたより多くのパラメータ値を渡そうとしたりするとエラーになるので注意してください。</p>
+</div>
+</div>
+<div class="section" id="id25">
+<h4>3.5.3.3. スクリプトジョブの実行<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>より複雑なジョブを作成したい場合、Kompiraジョブフロー言語よりも、bash,perl, ruby, python などの既存のスクリプト言語を組み合わせて使った方が良いでしょう。Kompira ファイルシステム上で、スクリプトジョブを作成することで、これらのスクリプト言語のプログラムをジョブフローから呼び出すことが可能になります。</p>
+<p>ここでは、シェルスクリプトを用いてスクリプトジョブを記述し、それをジョブフローから呼び出す例をみてみます。まず、以下に示すような簡単なシェルスクリプトをスクリプトジョブとして保存します。</p>
+<div class="highlight-python"><pre>#! /bin/sh
+echo Hello world from shell script</pre>
+</div>
+<p>Unix 環境で実行させるスクリプトの場合は、1行目の<tt class="docutils literal"><span class="pre">#!</span></tt>で始まる shebang行を適切に記述してください。Windows 環境で実行するスクリプトの場合は拡張子(bat/vbs/ps1など)を適切に指定する必要があります。</p>
+<p>このスクリプトジョブを「サンプルスクリプト」として保存したとすると、これを実行するためのジョブフローは、以下のようになります。</p>
+<div class="highlight-python"><pre>print('スクリプトジョブを実行します') -&gt;
+[./サンプルスクリプト] -&gt;
+print($RESULT)</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">__node__</span></tt>や<tt class="docutils literal"><span class="pre">__host__</span></tt>を指定しない場合、このスクリプトはジョブマネージャが動作しているマシン上に転送された上で実行されます。実行結果の出力は、リモートコマンドの実行結果と同じように<tt class="docutils literal"><span class="pre">$RESULT</span></tt>に格納されます。</p>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">スクリプトは実行時に指定したホストに一時ファイルとして転送され、実行後に削除されます。</p>
+</div>
+<p>スクリプトジョブにもパラメータを渡すことができます。スクリプトジョブ側では、コマンドライン引数としてパラメータを受け取ります。</p>
+<p>スクリプトの呼び出し側では、以下のようにキーワード無しの引数としてパラメータを渡します。</p>
+<div class="highlight-python"><pre>[./サンプルスクリプト: 'パラメータ1', 'パラメータ2']</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id26">
+<h2>3.6. オブジェクトを操作する<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id27">
+<h3>3.6.1. オブジェクトの参照<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ジョブフローや環境変数定義など、Kompira で扱う情報は<strong>Kompira オブジェクト</strong>として、Kompira ファイルシステム上で一元的に管理されています。そしてこれらのオブジェクトは Unix のファイルシステムのようなパス指定によってジョブフローからアクセスすることができます。</p>
+<p>これまでの例では、Kompira オブジェクトの参照は相対パスによって指定していました。この場合、オブジェクトのパスは、実行中のジョブフローが定義されているディレクトリを基準にして特定されます。</p>
+<p>たとえば、実行中のジョブが<tt class="docutils literal"><span class="pre">/some/path/jobflow</span></tt>であるときに、<tt class="docutils literal"><span class="pre">./subdir/object</span></tt>という相対パスによってオブジェクトを参照すると、<tt class="docutils literal"><span class="pre">/some/path/subdir/object</span></tt>がアクセスされることになります。</p>
+<p>また、<tt class="docutils literal"><span class="pre">../object</span></tt>という相対パスによって参照すると、<tt class="docutils literal"><span class="pre">/some/object</span></tt>がアクセスされることになります。<tt class="docutils literal"><span class="pre">../</span></tt>で始まる相対パスは親ディレクトリにあるオブジェクトを参照することを意味します。</p>
+<p>もちろん絶対パスで<tt class="docutils literal"><span class="pre">/some/path/object</span></tt>のように直接オブジェクトを参照することもできます。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">Kompira オブジェクトの参照では先頭に、<tt class="docutils literal"><span class="pre">./</span></tt>や<tt class="docutils literal"><span class="pre">../</span></tt>、<tt class="docutils literal"><span class="pre">/</span></tt>を付けるのを忘れないでください。Kompiraは<tt class="docutils literal"><span class="pre">./</span></tt>や<tt class="docutils literal"><span class="pre">../</span></tt>、<tt class="docutils literal"><span class="pre">/</span></tt>から始まる文字列を<strong>パス識別</strong>と認識し、それ以外は変数の識別子と認識します。</p>
+</div>
+<p>パスを連結させてオブジェクトを参照したい場合は、<tt class="docutils literal"><span class="pre">path()</span></tt>組み込み関数を利用します。たとえばノードの種類毎に「リソース情報取得」を行なうジョブフローを用意しておき、ノードとノード種別を指定してそのジョブフローを実行したい場合、パスを動的に組み立ててジョブフローを参照することができます。</p>
+<div class="highlight-python"><pre>|node|
+|node_type = 'Linux'|
+|job_name = 'リソース情報取得'|
+[job = path(./ノード別定義, node_type, job_name)] -&gt;
+[job: node]</pre>
+</div>
+<p>ここでデフォルト引数がそのまま<tt class="docutils literal"><span class="pre">path()</span></tt>関数に渡された場合、<tt class="docutils literal"><span class="pre">./ノード別定義/Linux/リソース情報取得</span></tt>というジョブフローを変数<tt class="docutils literal"><span class="pre">job</span></tt>で参照し、<tt class="docutils literal"><span class="pre">node</span></tt>をパラメータとして渡して実行することになります。</p>
+</div>
+<div class="section" id="id28">
+<h3>3.6.2. プロパティの参照と更新<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>各 Kompira オブジェクトはシステムで定義された「プロパティ」を持っています。例えばオブジェクトの名称やパス、作成日時などがプロパティです。Kompira オブジェクトが持つプロパティの詳細については<a class="reference internal" href="library.html#lib-property"><em>プロパティ</em></a>を参照してください。</p>
+<p>Kompira オブジェクトのプロパティを参照するにはドット記法<tt class="docutils literal"><span class="pre">オブジェクト.プロパティ名</span></tt>を用います。以下のジョブフローではパラメータ<tt class="docutils literal"><span class="pre">dir</span></tt>でしたディレクトリにある Kompira オブジェクトを列挙し、そのプロパティである「所有者(owner)」，「更新日時(update)」，「型名(type_name)」，「表示名(display_name) 」をドット記法で参照して表示しています。</p>
+<div class="highlight-python"><pre>| dir = / |
+{ for obj in dir |
+    [attr = {
+        owner = obj.owner,
+        updated = obj.updated,
+        type = obj.type_name,
+        name = obj.display_name
+    }] -&gt;
+    print("%owner %updated &lt;%type&gt; %name" % attr)
+}</pre>
+</div>
+<p>Kompira オブジェクトのプロパティ値を更新するには、出力ジョブ<tt class="docutils literal"><span class="pre">[値</span> <span class="pre">&gt;&gt;</span> <span class="pre">オブジェクト.プロパティ]</span></tt>を用います。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&quot;オブジェクトの説明文&quot;</span> <span class="o">&gt;&gt;</span> <span class="n">obj</span><span class="o">.</span><span class="n">description</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">ただし、プロパティの中にはジョブフローからは更新できない書き込み不可なものもありますので注意してください。詳細は<a class="reference internal" href="library.html#lib-property"><em>プロパティ</em></a>を参照してください。</p>
+</div>
+</div>
+<div class="section" id="id29">
+<h3>3.6.3. フィールドの参照と更新<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>各 Kompira オブジェクトは型ごとに定義された「フィールド」を持っています。システムで定義された各型にどのようなフィールドが定義されているかは、<tt class="docutils literal"><span class="pre">/system/types/</span></tt>下にある各型の定義情報を見るとわかります。</p>
+<p>Kompiraオブジェクトが持つフィールドは<tt class="docutils literal"><span class="pre">オブジェクト[フィールド名]</span></tt>または<tt class="docutils literal"><span class="pre">オブジェクト.フィールド名</span></tt>という記法で参照できます。</p>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">オブジェクトのプロパティにもドット記法でアクセスできることに注意してください。プロパティと同名のフィールドをユーザが定義することもできますが、ドット記法はプロパティ値を優先して参照します。</p>
+</div>
+<p>たとえば、ノード情報オブジェクトには「ホスト名(hostname)」や「IPアドレス(ipaddr)」といったフィールドが定義されています。ジョブフローでこれらの値を参照するには以下のように記述します。</p>
+<div class="highlight-python"><pre>|node = ./node|
+print(node['hostname'], node.ipaddr)</pre>
+</div>
+<p>フィールドの値は辞書のように参照できるため、<tt class="docutils literal"><span class="pre">%</span></tt>によるテンプレート展開もできます。</p>
+<div class="highlight-python"><pre>|node = ./node|
+print('%hostname: %ipaddr' % node)</pre>
+</div>
+<p>また、Kompira オブジェクトのフィールド値を更新するには、出力ジョブで<tt class="docutils literal"><span class="pre">[値</span> <span class="pre">&gt;&gt;</span> <span class="pre">オブジェクト[フィールド名]]</span></tt>または<tt class="docutils literal"><span class="pre">[値</span> <span class="pre">&gt;&gt;</span> <span class="pre">オブジェクト.フィールド名]</span></tt>という記法を用います。例えば Wiki ページ型の「Wiki テキスト」フィールド(&#8216;wikitext&#8217;) を更新するには、以下のように記述します。</p>
+<div class="highlight-python"><pre>['= サンプル Wiki\n' &gt;&gt; ./wiki['wikitext']]</pre>
+</div>
+<p>式の結果を出力ジョブで書き込むこともできるので、以下のように参照したフィールド値を加工して再度書き込む、ということもできます。</p>
+<div class="highlight-python"><pre>|wiki = ./wiki|
+|types = /system/types|
+["= 型一覧\n" &gt;&gt; wiki.wikitext] -&gt;
+{ for type in types |
+    [wiki.wikitext + "* $type: (" + type.description + ")\n" &gt;&gt; wiki.wikitext]
+}</pre>
+</div>
+<p>上の例では<tt class="docutils literal"><span class="pre">/system/types</span></tt>にあるシステム標準の型オブジェクトについて、そのパスと説明の一覧を記載した Wiki ページを作成しています。</p>
+</div>
+<div class="section" id="id30">
+<h3>3.6.4. メソッドの呼び出し<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Kompira オブジェクトの中にはメソッドを備えているものがあります。オブジェクトのメソッドを呼び出すには、以下のような構文を用います。</p>
+<div class="highlight-python"><pre>[ &lt;オブジェクト&gt; . &lt;メソッド名&gt; : &lt;パラメータ列&gt; ... ]</pre>
+</div>
+<p>例えば、オブジェクトの追加を行なうためにディレクトリ型のオブジェクトには<tt class="docutils literal"><span class="pre">add</span></tt>というメソッドがあります。<tt class="docutils literal"><span class="pre">add</span></tt>メソッドは<tt class="docutils literal"><span class="pre">name</span></tt>,<tt class="docutils literal"><span class="pre">type_obj</span></tt>,<tt class="docutils literal"><span class="pre">data</span></tt>という3つのパラメータを指定して呼び出します。以下の例ではジョブフローと同じディレクトリに &#8216;ENV&#8217; という名前で環境変数型(/system/types/Environment)オブジェクトを作成し、&#8217;environment&#8217; という名前の（辞書型）フィールドに<tt class="docutils literal"><span class="pre">{k1='value1',</span> <span class="pre">k2='value2'}</span></tt>という初期データを与えています。</p>
+<div class="highlight-python"><pre>[./.add: 'ENV', /system/types/Environment, {
+    environment={k1='value1', k2='value2'}
+}]</pre>
+</div>
+<p>ここでは<tt class="docutils literal"><span class="pre">./</span></tt>という相対パス識別が、このジョブフローがあるディレクトリを示すKompira オブジェクトを参照しています。オブジェクトの参照を変数で受け渡すこともできますので、以下のように書くこともできます。</p>
+<div class="highlight-python"><pre>[dir = ./, type=/system/types/Environment] -&gt;
+[dir.add: 'ENV', type, {environment={k1='value1', k2='value2'}}]</pre>
+</div>
+<p>またパラメータ列ではパラメータ名を指定して値を渡すこともできます。</p>
+<div class="highlight-python"><pre>[dir = ./, type=/system/types/Environment] -&gt;
+[dir.add: 'ENV', type_obj=type, data={environment={k1='value1', k2='value2'}}]</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id31">
+<h2>3.7. イベントを待ち合わせる<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>チャネルを用いて、ジョブの同期やイベントの待ち合わせ処理をジョブフローで記述することができます。</p>
+<div class="section" id="id32">
+<h3>3.7.1. メッセージの送受信<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>作成したチャネルに対して、メッセージを送信するには<tt class="docutils literal"><span class="pre">send</span></tt>メソッドを用います。「/home/guest/テストチャネル」に新しいチャネルを作成して試してみましょう。</p>
+<p>チャネルに対してメッセージを送信するジョブフローは、以下のようになります。</p>
+<div class="highlight-python"><pre>[/home/guest/テストチャネル.send: 'こんにちは']
+-&gt; print('メッセージを送信しました')</pre>
+</div>
+<p>次に、チャネルからメッセージを受信するジョブフローを以下のように定義します。</p>
+<div class="highlight-python"><pre>&lt;/home/guest/テストチャネル&gt;
+-&gt; [mesg = $RESULT]
+-&gt; print('メッセージ「$mesg」を受信しました。')</pre>
+</div>
+<p>上記の各ジョブフローを実行してみてください。受信側のジョブフロー実行のプロセスコンソールに以下のようにメッセージが出力されれば成功です。</p>
+<div class="highlight-python"><pre>メッセージ「こんにちは」を受信しました。</pre>
+</div>
+<p>送信側ジョブフローを複数回実行すると、チャネルにその分だけメッセージが溜まります。受信側のジョブフローを1回実行するたびに、そのチャネルから1つ分のメッセージを取り出して出力します。もし、チャネルのメッセージが空の場合、受信側のジョブフローは新しいメッセージが到着するまで待ちます。</p>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last"><tt class="docutils literal"><span class="pre">kompira_sendevt</span></tt>コマンドを用いることで、外部のシステムから任意の情報をチャネルに送信することができます。たとえば監視システムからアラート情報をチャネルに送信することで、障害発生時の手順をジョブフローで処理させることなども可能でしょう。<tt class="docutils literal"><span class="pre">kompira_sendevt</span></tt>コマンドの利用方法については<a class="reference internal" href="coordination.html"><em>他システムとの連携</em></a>を参照してください。</p>
+</div>
+</div>
+<div class="section" id="id33">
+<h3>3.7.2. イベントジョブについて<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>&lt;と&gt;で囲まれたジョブをイベントジョブと呼びます。イベントジョブは、他のジョブと同じようにジョブフローの中で組み合わせて使用することができます。</p>
+<p>イベントジョブの形式は以下のとおりです。</p>
+<div class="highlight-python"><pre>&lt; &lt;オブジェクト名&gt; : &lt;パラメータ列&gt; ... &gt;</pre>
+</div>
+<p>オブジェクト名にはチャネル型（およびそれに類する型：メールチャネル型など）のオブジェクトを指定します。それ以外のイベント待ち合わせ不可能なオブジェクトを指定すると実行時エラーとなります。</p>
+</div>
+<div class="section" id="id34">
+<h3>3.7.3. メッセージ受信のタイムアウト指定<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>チャネルからのメッセージの到着を待ち、一定時間内に来なかったらタイムアウトして処理を先に進めるにはイベントジョブにパラメータ<tt class="docutils literal"><span class="pre">timeout</span></tt>を指定します。</p>
+<div class="highlight-python"><pre>print('チャネルからメッセージを待ちます')
+-&gt; &lt;./テスト用チャネル: timeout=10&gt;
+=&gt; { if $STATUS==0 |
+    then: [mesg=$RESULT]
+          -&gt; print('メッセージ「$mesg」を受信しました')
+    else: print('タイムアウトしました') }</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">timeout</span></tt>で指定した秒数の間にメッセージが到着しなかった場合、イベントジョブは失敗しますので<tt class="docutils literal"><span class="pre">=&gt;</span></tt>で次のジョブと結合していることに注意してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">ノート</p>
+<p class="last">メッセージからの到着を待っている時に、チャネルが削除されると、イベントジョブは失敗して $STATUS に -1 をセットします。</p>
+</div>
+</div>
+<div class="section" id="id35">
+<h3>3.7.4. 複数チャネルからの選択的受信<a class="headerlink" href="#id35" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">choice</span></tt>ブロックを使うことで、複数のチャネルからのメッセージの到着を待つことも可能です。この場合、先にメッセージ到着したチャネルについての処理が続行されます。</p>
+<p>choiceブロックの使用例</p>
+<div class="highlight-python"><pre>print('チャネル1とチャネル2からメッセージの受信を待ちます')
+-&gt; { choice |
+    &lt;./チャネル1&gt; -&gt; [mesg=$RESULT]
+        -&gt; print('チャネル1からメッセージ「$mesg」を受信しました')
+    &lt;./チャネル2&gt; -&gt; [mesg=$RESULT]
+        -&gt; print('チャネル2からメッセージ「$mesg」を受信しました')
+}
+-&gt; print('OK')</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id36">
+<h2>3.8. 外部にアクセスする<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id37">
+<h3>3.8.1. メールを送信する<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>メールの送信には、組み込み<tt class="docutils literal"><span class="pre">mailto</span></tt>ジョブを用います。</p>
+<div class="highlight-python"><pre>[subject = 'テストメール',
+ body  = 'テストメールを送信します。\n受け取ったら破棄してください']
+-&gt; mailto(to='taro@example.com', from_user='hanako@example.com',
+          subject=subject, body=body)
+-&gt; print('メールを送信しました')</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">mailto</span></tt>ジョブの引数には、<tt class="docutils literal"><span class="pre">to</span></tt>(あて先メールアドレス)、<tt class="docutils literal"><span class="pre">from_user</span></tt>(送信元メールアドレス)、<tt class="docutils literal"><span class="pre">subject</span></tt>(メール表題)、<tt class="docutils literal"><span class="pre">body</span></tt>(メール本文)を指定します。</p>
+<p>複数のアドレスにメールを送信する場合、以下のように<tt class="docutils literal"><span class="pre">to</span></tt>引数にメールアドレス文字列のリストを渡して下さい。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mailto</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;taro@example.com&#39;</span><span class="p">,</span> <span class="s">&#39;jiro@example.com&#39;</span><span class="p">],</span> <span class="n">from_user</span><span class="o">=</span><span class="s">&#39;hanako@example.com&#39;</span><span class="p">,</span>
+       <span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">メール送信には、sendmail コマンドを使用しています。メールがうまく送信できない場合、sendmail コマンドの設定を確認し、Kompira サーバからsendmail コマンドで正しくメールが送信可能かどうか確認してください。</p>
+</div>
+</div>
+<div class="section" id="http">
+<h3>3.8.2. HTTP アクセスする<a class="headerlink" href="#http" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Web サーバなどに HTTP アクセスするには、組み込み<tt class="docutils literal"><span class="pre">urlopen</span></tt>ジョブを用います。単純に<tt class="docutils literal"><span class="pre">urlopen()</span></tt>に URL だけを渡した場合は GET アクセスになります。</p>
+<div class="highlight-python"><pre>|url = 'http://www.kompira.jp'|
+urlopen(url)
+=&gt; [status = $STATUS, result = $RESULT]
+-&gt; { if status != 0 |
+then:
+    print('HTTP アクセスに失敗しました')
+elif result.code != 200:
+    print('HTTP ステータスコードが %code です' % result)
+else:
+    print(result.body)
+}</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">urlopen()</span></tt>でアクセスに成功した場合の結果は辞書で返されます。<tt class="docutils literal"><span class="pre">code</span></tt>には HTTP のステータスコードが、<tt class="docutils literal"><span class="pre">body</span></tt>にはレスポンスの内容が格納されています。</p>
+<p>なお、バージョン 1.4.0 時点での Kompira は HTML を解析する機能は持っていないので、以下のような簡単なスクリプトジョブを<tt class="docutils literal"><span class="pre">html_parse</span></tt>という名前で作成しておきます。このスクリプトは標準入力に渡した HTML から、パラメータで指定した箇所をテキストで抜き出します。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/python</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">;</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span><span class="p">;</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">print</span> <span class="n">html</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>さて、<tt class="docutils literal"><span class="pre">urlopen()</span></tt>はパラメータ<tt class="docutils literal"><span class="pre">data</span></tt>に辞書データを渡すことで POST アクセスさせることもできます。例として、ネットワークインターフェースに付与された MAC アドレスの前半部分(OUI)から製品ベンダーを調べる、というジョブフローを考えます。OUI は IEEE という組織が管理しており、<a class="reference external" href="http://standards.ieee.org/develop/regauth/oui/public.html">http://standards.ieee.org/develop/regauth/oui/public.html</a>から検索することができます。このページにはフォームがあり、<tt class="docutils literal"><span class="pre">x</span></tt>という名前の入力欄に OUI を入力するようになっています。また、検索すると<tt class="docutils literal"><span class="pre">/cgi-bin/ouisearch</span></tt>という CGI が実行されるようになっているので、OUI を<tt class="docutils literal"><span class="pre">x</span></tt>という名前でデータとしてその CGI に渡す POST アクセスをすればよいことになります。</p>
+<div class="highlight-python"><pre>|oui = '00-00-00'|
+urlopen('http://standards.ieee.org/cgi-bin/ouisearch', data={x=oui})
+-&gt; [./html_parse &lt;&lt; $RESULT.body: '//pre']
+-&gt; print($RESULT)</pre>
+</div>
+<p>検索結果のページでは<tt class="docutils literal"><span class="pre">&lt;pre&gt;</span></tt>タグに結果がありますので、そこを抜き出すために<tt class="docutils literal"><span class="pre">//pre</span></tt>というパラメータを<tt class="docutils literal"><span class="pre">html_parse</span></tt>スクリプトに渡しています。このパラメータは XPath という XML 文書の部分指定をするための構文で指定します。</p>
+<p>このジョブフローを実行すると、以下のようにベンダー情報を外部の Web ページから取得できていることが分かります。</p>
+<div class="highlight-python"><pre>[localhost] local: (/tmp/tmpxaL7DG //pre) &lt; /tmp/tmpktOTMU
+
+  OUI/MA-L                      Organization
+  company_id                    Organization
+                                    Address
+
+
+  00-00-00   (hex)              XEROX CORPORATION
+  000000     (base 16)          XEROX CORPORATION
+                                M/S 105-50C
+                                800 PHILLIPS ROAD
+                                WEBSTER NY 14580
+                                UNITED STATES</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id38">
+<h2>3.9. プロセスを制御する<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ジョブフローを実行すると、その終了の時まで Kompira 上ではプロセスという実行単位で管理され、プロセスはジョブフローに記述されたジョブを連続的に順次実行することになります。ここではプロセスを制御する方法について説明します。</p>
+<div class="section" id="id39">
+<h3>3.9.1. プロセスの終了<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ジョブフローの終端に到達するなどして継続すべきジョブが無くなった場合や、実行したコマンドが失敗した状態で<tt class="docutils literal"><span class="pre">-&gt;</span></tt>を使ってジョブを結合した場合などは、プロセスは自動的に終了します。</p>
+<p>そうした場合以外で、実行中のプロセスを明示的に終了させたいには<tt class="docutils literal"><span class="pre">exit</span></tt>ジョブあるいは<tt class="docutils literal"><span class="pre">abort</span></tt>ジョブを用います。</p>
+<div class="section" id="exit">
+<h4>3.9.1.1. exit<a class="headerlink" href="#exit" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>実行中のプロセスを終了させるには、組み込み<tt class="docutils literal"><span class="pre">exit</span></tt>ジョブを用います。引数を指定せず<tt class="docutils literal"><span class="pre">exit()</span></tt>と呼出すと、プロセスをただちに正常終了します。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">exit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">exit</span></tt>ジョブの引数で終了ステータスコードを指定することもできます。以下の例では、パラメータ<tt class="docutils literal"><span class="pre">command</span></tt>で指定されたコマンドを実行したのち、結果（成功・失敗）にかかわらず標準エラー出力と標準出力を表示してから、コマンド実行結果をステータスコードとしてプロセスを終了します。</p>
+<div class="highlight-python"><pre>|command|
+[command]
+=&gt; [status=$STATUS, stderr=$ERROR, stdout=$RESULT]
+-&gt; { if stderr | print(stderr) }
+-&gt; { if stdout | print(stdout) }
+-&gt; exit(status)</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">exit</span></tt>と<tt class="docutils literal"><span class="pre">return</span></tt>の違いに注意してください。例えば、メインジョブから呼び出されたサブジョブで<tt class="docutils literal"><span class="pre">exit</span></tt>ジョブを呼び出すと実行中のプロセスを終了させます（メインジョブに制御が戻らず即座に終了します）。一方、サブジョブで<tt class="docutils literal"><span class="pre">return</span></tt>ジョブを呼び出すと、プロセスを終了させるのではなく、メインジョブに制御が戻り、サブジョブを呼び出した実行ジョブの直後から処理が継続されます。</p>
+<p>ただし、呼び出し元が存在しない場合、たとえば直接「実行ボタン」を押して実行したジョブフローから<tt class="docutils literal"><span class="pre">return</span></tt>ジョブを呼び出した場合は、その時点で継続するジョブが無くなりますのでプロセスが終了します。</p>
+</div>
+<div class="section" id="abort">
+<h4>3.9.1.2. abort<a class="headerlink" href="#abort" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ジョブを継続できない状態になった場合などに、組み込み<tt class="docutils literal"><span class="pre">abort</span></tt>ジョブを呼出すことで、実行中のプロセスを異常終了させることができます。以下の例ではパラメータで指定した URL に<tt class="docutils literal"><span class="pre">urlopen</span></tt>でアクセスした時に、HTTP アクセスに失敗したか、HTTP ステータスコードが 200 以外の場合にプロセスを異常終了させます。</p>
+<div class="highlight-python"><pre>|url|
+urlopen(url)
+=&gt; [result = $RESULT, status = $STATUS]
+-&gt; { if status != 0 | abort('HTTPアクセスに失敗しました') }
+-&gt; { if result.code != 200 | abort('HTTPステータスコードが %code です' % result) }
+-&gt; return(result.body)</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">abort()</span></tt>ジョブは自動的に終了ステータスコードを 1 にセットしてプロセスを終了させるため、<tt class="docutils literal"><span class="pre">exit(status=1)</span></tt>とほぼ同じです。</p>
+</div>
+</div>
+<div class="section" id="id40">
+<h3>3.9.2. 子プロセスの起動<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Kompira が持つ複数プロセスの並行動作という特徴は、ジョブフローでは「子プロセス」を起動するという方法で利用することができます。</p>
+<p>子プロセスは起動した時点では親プロセス（子プロセスを起動したプロセスのこと）のコピーであり、ローカル変数や特殊変数は同じ値を持っていますが、プロセス間での共有や参照はできないので、子プロセスから親プロセスの変数を書き換えたりすることは出来ないことに注意してください（逆方向も同じ）。</p>
+<div class="section" id="fork">
+<h4>3.9.2.1. fork<a class="headerlink" href="#fork" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">fork</span></tt>ブロックを用いて、複数の子プロセスを一度に起動することが可能です。以下では「処理Ａ」というサブジョブの実行結果を、「処理Ｂ」と「処理Ｃ」というサブジョブでそれぞれ並行して処理させるジョブフローの例になります。</p>
+<div class="highlight-python"><pre>[./処理Ａ] -&gt; [result = $RESULT] -&gt;
+{ fork |
+    [./処理Ｂ: result] -&gt; print('処理Ｂ終了')
+    [./処理Ｃ: result] -&gt; print('処理Ｃ終了')
+} -&gt; print('すべての子プロセスが終了しました')</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">fork</span></tt>ブロックの中でジョブ間を結合子で接続していない箇所がありますが、これが「ジョブフロー式」の区切りであり、上の例では<tt class="docutils literal"><span class="pre">fork</span></tt>ブロックに2つのジョブフロー式があることになります。この2つのジョブフロー式の部分がそれぞれ子プロセスとして並行に動作し、それらの実行が全て完了すると、親プロセスのジョブが継続して「すべての子プロセスが終了しました」とコンソールに出力されます。</p>
+<p>なおジョブフローで子プロセスを起動したとき、そのプロセスのプロセス詳細画面の「子プロセス一覧」タブには起動した子プロセスが表示されます。逆に、子プロセスは「プロセス一覧」画面には表示されないことに注意してください。</p>
+</div>
+<div class="section" id="pfor">
+<h4>3.9.2.2. pfor<a class="headerlink" href="#pfor" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">for</span></tt>ブロックの代わりに<tt class="docutils literal"><span class="pre">pfor</span></tt>ブロックを使うことで、繰り返し処理が並列プロセスとして一度に実行することができます。</p>
+<p>例えば管理対象のノードを「ノード一覧」で管理しており、管理対象すべてのノードに対して同じジョブ「構成情報収集」を実行したい場合、<tt class="docutils literal"><span class="pre">for</span></tt>ブロックを用いて以下のように書けます（構成情報収集はパラメータで処理対象のノードを指定するものとします）。</p>
+<div class="highlight-python"><pre>|job = ./構成情報収集|
+{ for node in ./ノード一覧 |
+    [job: node]
+} -&gt; print("すべてのノードに対する処理が終了しました")</pre>
+</div>
+<p>もしこの「構成情報収集」ジョブがリモートノードに対して処理時間のかかるコマンドを投入しているような場合、このプロセスは「待ち状態」になっている割合が多くなります。結果的に、負荷は低いがすべてのノードに対する処理が終了するまでに長い時間がかかる、ということになります。</p>
+<p>こうしたときに<tt class="docutils literal"><span class="pre">for</span></tt>の代わりに<tt class="docutils literal"><span class="pre">pfor</span></tt>を使うと、各ノードごとに子プロセスを起動してその子プロセスで「構成情報収集」ジョブを実行することになります。そうすると、あるノードに対する処理で「待ち状態」になっていても、別のノードの処理を並列に実行できるため、全体でのジョブの実行効率を上げて処理時間を短縮できるようになります。</p>
+<div class="highlight-python"><pre>|job = ./構成情報収集|
+{ pfor node in ./ノード一覧 |
+    [job: node]
+} -&gt; print("すべてのノードに対する処理が終了しました")</pre>
+</div>
+</div>
+</div>
+<div class="section" id="id41">
+<h3>3.9.3. 親プロセスからの切り離し<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>子プロセスを<tt class="docutils literal"><span class="pre">fork</span></tt>や<tt class="docutils literal"><span class="pre">pfor</span></tt>を使って起動した親プロセスはすべての子プロセスの終了を待つため、その間親プロセスは新たなジョブを動作させることはできません。しかし、子プロセスの終了を待たずに親プロセス側の処理を継続させたい、という場合もあります。そういう場合には<tt class="docutils literal"><span class="pre">detach()</span></tt>を用いて親プロセスから切り離すことで対応できます。</p>
+<div class="section" id="detach">
+<h4>3.9.3.1. detach<a class="headerlink" href="#detach" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>例えばチャネルからメッセージを受信するたびに同じジョブフローを実行したい、ということがしばしばあります。以下ではメッセージを受信するたびに「メッセージ処理」というジョブフローに、メッセージをパラメータとして渡して呼び出しています。</p>
+<div class="highlight-python"><pre>|chan = /system/channels/Alert|
+|proc = ./メッセージ処理|
+{ while true |
+    &lt;chan&gt;
+    -&gt; [msg = $RESULT]
+    -&gt; [proc: msg]
+}</pre>
+</div>
+<p>チャネルから受信する複数のメッセージ間に関連性が無いときは、メッセージ処理を同時に実行させるようにすることで、メッセージが連続して到着したときに全体での処理効率の向上につながることがあります。そのためには、メッセージを受信するジョブフローと「メッセージ処理」を別のプロセスとして動作させる必要があります。そこで<tt class="docutils literal"><span class="pre">fork</span></tt>を用いて「メッセージ処理」を子プロセスで動作させるようにしてみます。</p>
+<div class="highlight-python"><pre>|chan = /system/channels/Alert|
+|proc = ./メッセージ処理|
+{ while true |
+    &lt;chan&gt;
+    -&gt; [msg = $RESULT]
+    -&gt; { fork | [proc: msg] }
+}</pre>
+</div>
+<p>しかし、これでは「メッセージ処理」のジョブが完了するまで親プロセスは待ってしまうため、メッセージ処理の最中に新しいメッセージが到着しても、同時に処理することはできません。そこで子プロセス側で<tt class="docutils literal"><span class="pre">detach()</span></tt>組み込みジョブを用いて、子プロセスを親プロセスから切り離すようにします。</p>
+<div class="highlight-python"><pre>|chan = /system/channels/Alert|
+|proc = ./メッセージ処理|
+{ while true |
+    &lt;chan&gt;
+    -&gt; [msg = $RESULT]
+    -&gt; { fork | detach() -&gt; [proc: msg] }
+}</pre>
+</div>
+<p>親プロセス側は子プロセスの<tt class="docutils literal"><span class="pre">detach()</span></tt>により、処理完了を待つべき子プロセスがなくなるため、その時点で次のジョブを継続できることになります。すなわちチャネルから次のメッセージを受信を行ない、先に起動した「メッセージ処理」がまだ完了していなくても新しい「メッセージ処理」を起動できることになります。</p>
+<p>子プロセス側は<tt class="docutils literal"><span class="pre">detach()</span></tt>により子プロセスではなく通常のプロセスとなり、親プロセスの「子プロセス一覧」ではなく「プロセス一覧」画面に表示されるようになります。</p>
+<p>このように<tt class="docutils literal"><span class="pre">fork</span></tt>や<tt class="docutils literal"><span class="pre">pfor</span></tt>と<tt class="docutils literal"><span class="pre">detach()</span></tt>を組合せることで、多少複雑な並行処理でも簡単に記述することができます。</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="reference.html" title="4. Kompira ジョブフロー言語リファレンス"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="2. 操作ガイド"
+             >前へ</a> |</li>
+        <li><a href="index.html">Kompira 1.4.8.post7 ドキュメント</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Kompira development team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3 で生成しました。
+    </div>
+  </body>
+</html>
